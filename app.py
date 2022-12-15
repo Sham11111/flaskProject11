@@ -76,7 +76,7 @@ def get_ad():
 
 @app.route('/all/<int:id>')
 def detail(id):
-    """подробный вывод объявления"""
+    """Содержание объявления"""
     gad_detail = DBF.query.get(id)
     return render_template("ad_detail.html", gad_detail=gad_detail)
 
@@ -95,7 +95,7 @@ def del_ad(id):
             db.session.commit()
             return redirect('/all')
         except:
-            return "Возникла ошибка"
+            return "Ошибка!"
 
 
 @app.route('/all/<int:id>/update', methods=['POST', 'GET'])
@@ -133,7 +133,7 @@ def create_ad():
             db.session.commit()
             return redirect('/all')
         except:
-            return "Возникла ошибка"
+            return "Ошибка!"
     else:
         return render_template("create_ad.html")
 
