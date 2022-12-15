@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Изменение объявления
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Изменение объявления</h1>
+    <form method="post">
+        <input type="text" name="title" id="title" class="from-control" value="{{ gad_detail.title }}" placeholder="Введите название объявления"><br><br>
+{#        <textarea name="intro" id="intro" class="from-control"></textarea><br>#}
+        <textarea name="content" id="content" class="from-control" placeholder="Введите текст объявления">{{ gad_detail.content }}</textarea><br><br>
+        <input type="submit" class="btn btn-success" value="Обновить"><br><br>
+    </form>
+</div>
+{% endblock %}

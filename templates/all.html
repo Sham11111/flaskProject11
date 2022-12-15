@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+    Все объявления
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+    <h1>Все объявления</h1>
+
+    {% if gad|length > 0 %}
+        {% for a in gad%}
+            <div class="alert alert-info">
+                <h2>{{ a.title }}</h2>
+            <p>{{ a.content }}</p>
+                <p><b>Дата: {{ a.tm.date() }} {{ a.tm.time() }}</b></p>
+                <a href="/all/{{ a.id }}"class="btn btn-success">Подробнее</a>
+            </div>
+        {% endfor %}
+    {% else %}
+    <p>У нас нет объявлений</p>
+    {% endif %}
+
+    </div>
+
+{% endblock %}
