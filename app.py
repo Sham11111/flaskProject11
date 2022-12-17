@@ -41,7 +41,7 @@ def redirect_all():
 @app.route('/all', methods=['POST', 'GET'])
 def disp_ads():
     gad = DBF.query.order_by(DBF.tm.desc()).all()
-    return render_template("all_ads.html", gad=gad)
+    return render_template("disp_ads.html", gad=gad)
 
 # Подробности объявления
 @app.route('/all/<int:id>')
