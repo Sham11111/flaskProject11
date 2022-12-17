@@ -111,7 +111,6 @@ def auto_delete():
                 db.session.delete(item_tables)
                 db.session.commit()
 
-
 scheduler.add_job(func=auto_delete, trigger="interval", seconds=360)
 
 scheduler.start()
