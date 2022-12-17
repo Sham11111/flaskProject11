@@ -70,7 +70,7 @@ def create_ads():
 
 # Внесение изменений в объявления
 @app.route('/all/<int:id>/update', methods=['POST', 'GET'])
-def update_ad(id):
+def change_ads(id):
     gad_detail = DBF.query.get(id)
     if request.method == "POST":
         gad_detail.username = session['username']
@@ -84,7 +84,7 @@ def update_ad(id):
         if gad_detail.username != session['username']:
             return "Ошибка! Вы можете изменить только свои объявления!"
         else:
-            return render_template("update_ads.html", gad_detail=gad_detail)
+            return render_template("change_ads.html", gad_detail=gad_detail)
 
 # Удаление объявлений
 @app.route('/all/<int:id>/delete')
