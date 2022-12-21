@@ -23,19 +23,21 @@ class DBF(db.Model):
     def __repr__(self):
         return 'DBF %r' % self.id
 
+
 # Осуществление входа на сайт под своим именем
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-        if request.method == 'POST':
-            session['username'] = request.form['username']
-            return redirect(url_for('disp_ads'))
-        else:
-            return redirect(url_for('disp_ads'))
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('disp_ads'))
+    else:
+        return render_template("login.html")
 
 
 @app.route('/')
 def redirect_all():
     return redirect(url_for('login'))
+
 
 # Вызов объявления
 @app.route('/all', methods=['POST', 'GET'])
@@ -43,11 +45,13 @@ def disp_ads():
     gad = DBF.query.order_by(DBF.tm.desc()).all()
     return render_template("disp_ads.html", gad=gad)
 
+
 # Подробности объявления
 @app.route('/all/<int:id>')
 def detail_ads(id):
     gad_detail = DBF.query.get(id)
     return render_template("detail_ads.html", gad_detail=gad_detail)
+
 
 # Создание объявлений
 @app.route('/create_ad', methods=['POST', 'GET'])
@@ -59,14 +63,13 @@ def create_ads():
 
         ad = DBF(title=title, content=content, username=username)
 
-        try:
-            db.session.add(ad)
-            db.session.commit()
-            return redirect('/all')
-        except:
-            return "Ошибка!"
+        db.session.add(ad)
+        db.session.commit()
+        return redirect('/all')
+
     else:
         return render_template("create_ads.html")
+
 
 # Внесение изменений в объявления
 @app.route('/all/<int:id>/update', methods=['POST', 'GET'])
@@ -86,6 +89,7 @@ def change_ads(id):
         else:
             return render_template("change_ads.html", gad_detail=gad_detail)
 
+
 # Удаление объявлений
 @app.route('/all/<int:id>/delete')
 def delete_ads(id):
@@ -99,6 +103,7 @@ def delete_ads(id):
         else:
             return "Ошибка! Вы можете удалять только свои объявления!"
 
+
 # Автоматическое удаление объявлений по времени
 def auto_delete():
     with app.app_context():
@@ -111,12 +116,12 @@ def auto_delete():
                 db.session.delete(item_tables)
                 db.session.commit()
 
+
 scheduler.add_job(func=auto_delete, trigger="interval", seconds=360)
 
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown())
-
 
 if __name__ == '__main__':
     app.run()
